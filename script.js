@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startAmbientEffects();
 
     // 5. Estado del botón (queda oculto, pero lo dejamos coherente)
-    buttonLabel.textContent = '💛 Para ti';
+    
     giftButton.classList.add('opened');
     giftButton.setAttribute('aria-disabled', 'true');
 
