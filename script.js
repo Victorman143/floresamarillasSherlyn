@@ -341,10 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Estado del botón (queda oculto, pero lo dejamos coherente)
     
-    giftButton.classList.add('opened');
-    giftButton.setAttribute('aria-disabled', 'true');
-
-    hint.classList.add('hidden');
 
     // 6. Llevar el foco al botón "Volver" (accesibilidad con teclado)
     trackTimeout(() => backButton.focus({ preventScroll: true }), 1200);
