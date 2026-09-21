@@ -1,0 +1,608 @@
+/* ============================================================
+   Para ti, con mucho cariño 💛 — estilos
+   (v3: ramo de girasoles nocturno + botón Volver + texto final)
+   ============================================================ */
+
+:root {
+  /* Cielo nocturno */
+  --noche-1: #170f28;
+  --noche-2: #241638;
+  --noche-3: #33193f;
+  --glow-rosa: #d94f8c;
+
+  /* Amarillos del girasol */
+  --amarillo-brillo: #fff3b0;
+  --amarillo-claro: #ffe27a;
+  --amarillo-medio: #ffcd3c;
+  --amarillo-fuerte: #f7b731;
+  --amarillo-oscuro: #d98f1f;
+  --centro-claro: #6b3d18;
+  --centro-oscuro: #2f1a0c;
+
+  /* Verdes del tallo y hojas */
+  --verde-claro: #8fc46b;
+  --verde-medio: #5f9a4a;
+  --verde-oscuro: #35602c;
+  --verde-sombra: #223f1d;
+
+  --texto-claro: #fff6df;
+  --texto-suave: #e9d8f5;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-body: Georgia, "Times New Roman", serif;
+
+  /* Cuánto sube el ramo cuando se abre el regalo.
+     Más alto = flores más arriba. Prueba entre 14vh y 28vh. */
+  --lift: 20vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  color: var(--texto-claro);
+  background:
+    radial-gradient(120% 55% at 50% 100%, rgba(217, 79, 140, 0.35) 0%, rgba(217, 79, 140, 0) 60%),
+    linear-gradient(180deg, var(--noche-1) 0%, var(--noche-2) 55%, var(--noche-3) 100%);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* ============================================================
+   Capa de escena (resplandor, estrellas/brillos, pétalos y ramo)
+   ============================================================ */
+
+.scene {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.stage-glow,
+.glow-layer,
+.petal-layer,
+.flower-field {
+  position: absolute;
+  inset: 0;
+}
+
+/* Resplandor cálido en la base, como en la referencia */
+.stage-glow {
+  top: auto;
+  height: 45vh;
+  background: radial-gradient(60% 100% at 50% 100%, rgba(247, 183, 49, 0.22) 0%, rgba(217, 79, 140, 0.16) 45%, rgba(217, 79, 140, 0) 80%);
+}
+
+/* Ramo centrado, ligeramente más ancho en pantallas grandes */
+.flower-field {
+  top: auto;
+  bottom: 0;
+  left: 50%;
+  right: auto;
+  width: min(94vw, 460px);
+  height: 58vh;
+  transform: translateX(-50%);
+}
+
+/* ============================================================
+   Contenido principal
+   ============================================================ */
+
+.content {
+  position: relative;
+  z-index: 3;
+  max-width: 560px;
+  width: 100%;
+  padding: 40px 28px 8px;
+  margin: 0 auto;
+  text-align: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.badge {
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+  opacity: 0;
+  transform: scale(0.6);
+  animation: badge-in 900ms ease-out 200ms forwards;
+  filter: drop-shadow(0 0 10px rgba(255, 205, 60, 0.6));
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  line-height: 1.25;
+  color: var(--amarillo-brillo);
+  text-shadow:
+    0 0 12px rgba(255, 226, 122, 0.75),
+    0 0 28px rgba(247, 183, 49, 0.45);
+  margin: 0 0 16px;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.subtitle {
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--texto-suave);
+  margin: 0 0 30px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Estado inicial: título y subtítulo entran suavemente al cargar la página */
+.title.reveal {
+  animation: fade-up 900ms ease-out 400ms forwards;
+}
+.subtitle.reveal {
+  animation: fade-up 900ms ease-out 650ms forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ============================================================
+   Botón principal
+   ============================================================ */
+
+.gift-button {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.6vw, 1.15rem);
+  font-weight: 600;
+  color: #3a2308;
+  background: linear-gradient(135deg, var(--amarillo-brillo), var(--amarillo-fuerte));
+  border: none;
+  border-radius: 999px;
+  padding: 18px 40px;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(255, 243, 176, 0.25), 0 14px 30px -10px rgba(247, 183, 49, 0.55);
+  transition: transform 220ms ease, box-shadow 220ms ease, opacity 400ms ease;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fade-up 900ms ease-out 900ms forwards;
+}
+
+.gift-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px rgba(255, 243, 176, 0.35), 0 18px 38px -10px rgba(247, 183, 49, 0.7);
+}
+
+.gift-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.gift-button:focus-visible {
+  outline: 3px solid var(--amarillo-brillo);
+  outline-offset: 4px;
+}
+
+.gift-button.opened {
+  background: linear-gradient(135deg, var(--amarillo-claro), var(--amarillo-medio));
+  cursor: default;
+  box-shadow: 0 0 0 1px rgba(255, 243, 176, 0.2), 0 10px 24px -10px rgba(247, 183, 49, 0.45);
+}
+
+.hint {
+  margin: 16px 0 0;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  opacity: 0;
+  animation: fade-up 900ms ease-out 1100ms forwards;
+  transition: opacity 400ms ease;
+  font-size: 0.93rem;
+}
+
+.hint.hidden {
+  opacity: 0 !important;
+}
+
+/* ============================================================
+   Ramo de girasoles (generado dinámicamente por JS)
+   ============================================================ */
+
+/* .flower-slot fija la posición final (izquierda / altura / inclinación) */
+.flower-slot {
+  position: absolute;
+  bottom: 0;
+  transform-origin: bottom center;
+}
+
+/* .flower-pop controla la animación de "crecimiento" al abrir el regalo */
+.flower-pop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(50px) scale(calc(var(--scale, 1) * 0.5));
+  transform-origin: bottom center;
+  transition: opacity 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 0 10px rgba(247, 183, 49, 0.35));
+}
+
+.flower-pop.grown {
+  opacity: 1;
+  transform: translateY(0) scale(var(--scale, 1));
+}
+
+.flower-stem {
+  width: 5px;
+  border-radius: 3px;
+  background: linear-gradient(to top, var(--verde-oscuro), var(--verde-medio));
+}
+
+.flower-leaf {
+  position: absolute;
+  width: 26px;
+  height: 13px;
+  background: linear-gradient(120deg, var(--verde-medio), var(--verde-oscuro));
+  border-radius: 0 100% 0 100%;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.flower-head {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  margin-bottom: -8px;
+  transform-origin: center;
+  animation: sway 6s ease-in-out infinite;
+}
+
+/* Pétalo exterior: más largo y de un amarillo más profundo, da volumen */
+.flower-petal-outer {
+  position: absolute;
+  width: 24px;
+  height: 38px;
+  left: 50%;
+  top: 50%;
+  background: linear-gradient(to top, var(--amarillo-oscuro), var(--amarillo-fuerte));
+  border-radius: 60% 60% 10% 10%;
+  transform-origin: 50% 100%;
+}
+
+/* Pétalo interior: más corto y brillante, se dibuja encima del exterior */
+.flower-petal-inner {
+  position: absolute;
+  width: 15px;
+  height: 26px;
+  left: 50%;
+  top: 50%;
+  background: linear-gradient(to top, var(--amarillo-medio), var(--amarillo-claro) 70%, var(--amarillo-brillo));
+  border-radius: 60% 60% 10% 10%;
+  transform-origin: 50% 100%;
+}
+
+.flower-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background:
+    repeating-radial-gradient(circle at 50% 50%, var(--centro-claro) 0px, var(--centro-claro) 1.6px, var(--centro-oscuro) 1.6px, var(--centro-oscuro) 3.2px);
+  box-shadow:
+    inset 0 -3px 6px rgba(0, 0, 0, 0.55),
+    inset 0 2px 4px rgba(255, 205, 60, 0.35),
+    0 0 0 2px rgba(255, 226, 122, 0.3);
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+/* Grupo de hojas grandes en la base del ramo, entre los tallos */
+.leaf-cluster {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 130px;
+  opacity: 0;
+  transition: opacity 1200ms ease 300ms;
+}
+
+.leaf-cluster.grown {
+  opacity: 1;
+}
+
+.base-leaf {
+  position: absolute;
+  bottom: 0;
+  width: 46px;
+  height: 90px;
+  background: linear-gradient(200deg, var(--verde-claro), var(--verde-medio) 55%, var(--verde-sombra));
+  border-radius: 0 100% 0 100%;
+}
+
+/* ============================================================
+   Pétalos flotantes
+   ============================================================ */
+
+.petal {
+  position: absolute;
+  top: -30px;
+  width: 12px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--amarillo-claro), var(--amarillo-fuerte));
+  border-radius: 60% 60% 8% 8%;
+  opacity: 0.9;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(115vh) translateX(var(--drift, 60px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Estrellas ambientales y brillos / partículas
+   ============================================================ */
+
+.star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8);
+  animation-name: twinkle-loop;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes twinkle-loop {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff6d8;
+  box-shadow: 0 0 8px 2px rgba(255, 224, 130, 0.9);
+  animation-name: twinkle;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.4) translateY(-20px);
+  }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (min-width: 900px) {
+  .flower-field {
+    width: min(60vw, 620px);
+    height: 62vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 32px 20px 6px;
+  }
+
+  .gift-button {
+    width: 100%;
+    padding: 16px 24px;
+  }
+
+  .flower-field {
+    width: min(96vw, 380px);
+    height: 52vh;
+  }
+}
+
+@media (max-width: 380px) {
+  .title {
+    font-size: 1.55rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .flower-field {
+    height: 48vh;
+  }
+}
+
+/* Respeta la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ============================================================
+   v3 — Al abrir el regalo: solo flores, texto final y "Volver"
+   (la clase scene-open se pone en <body> desde el JS)
+   ============================================================ */
+
+/* ---------- 1. Se oculta título, subtítulo, botón y pista ---------- */
+
+#mainTitle,
+#subtitle,
+#giftButton,
+#hint {
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+body.scene-open #mainTitle,
+body.scene-open #subtitle,
+body.scene-open #giftButton,
+body.scene-open #hint {
+  /* !important porque las animaciones .reveal / fade-up fijan la opacidad */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ---------- 2. El ramo sube (incluye las hojas de la base) ----------
+   OJO: .flower-field ya usa translateX(-50%) para centrarse, así que
+   aquí hay que repetirlo junto con el translateY; si no, el ramo se
+   corre hacia la derecha. */
+
+#flowerField {
+  transition: transform 1s ease;
+}
+
+body.scene-open #flowerField {
+  transform: translateX(-50%) translateY(calc(-1 * var(--lift)));
+}
+
+/* ---------- 3. Texto final ----------
+   Por defecto: centrado, debajo del ramo (celular y pantallas medianas). */
+
+.final-message {
+  position: fixed;
+  left: 50%;
+  bottom: 6vh;
+  transform: translateX(-50%);
+  width: min(90vw, 520px);
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 4.2vw, 1.7rem);
+  line-height: 1.4;
+  color: var(--amarillo-brillo);
+  text-shadow:
+    0 0 12px rgba(255, 226, 122, 0.6),
+    0 0 26px rgba(247, 183, 49, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+body.scene-open .final-message {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 1.8s; /* aparece cuando las flores ya crecieron */
+}
+
+/* En pantallas anchas (≥1400px) el texto pasa a la IZQUIERDA del ramo,
+   centrado en vertical. Si prefieres que siempre vaya abajo y centrado,
+   borra este bloque completo. */
+@media (min-width: 1400px) {
+  .final-message {
+    left: 5vw;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    /* ocupa el espacio libre hasta el borde izquierdo del ramo (620px de ancho) */
+    width: min(calc(50vw - 310px - 5vw - 24px), 460px);
+    text-align: left;
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+  }
+}
+
+/* ---------- 4. Botón "Volver" ---------- */
+
+.back-button {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: 16px;
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--amarillo-brillo);
+  background: rgba(255, 214, 64, 0.16);
+  border: 1px solid rgba(255, 214, 64, 0.55);
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 30; /* por encima de las flores */
+  transition: opacity 0.6s ease, visibility 0.6s ease, background 0.2s ease;
+}
+
+body.scene-open .back-button {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 1.2s;
+}
+
+.back-button:hover {
+  background: rgba(255, 214, 64, 0.3);
+}
+
+.back-button:focus-visible {
+  outline: 2px solid #ffd640;
+  outline-offset: 3px;
+}
